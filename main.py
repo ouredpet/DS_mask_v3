@@ -68,7 +68,7 @@ class mask_paramters():
     meas_areas = np.logspace(np.log10(0.11), np.log10(0.5), 22)
     mesa_under_etch = 0.1
 
-    slot_w = np.array((5,6,7,5,6,7))
+    slot_w = np.array((6,7,8,6,7,8))
     slot_l = np.array((8,8,8,10,10,10))
 
     # Etching sizes
@@ -176,7 +176,8 @@ def build_AUX( mask_obj, cell_name):
     # mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N8_1")
     # mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N9_1")
     # mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N12_1")
-    mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N13_1")
+    # mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N13_1")
+    mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N5_1")
     mask_f.mesa_fields(mask_obj, cell_name)
     build_pads_mesa_measure(mask_obj, cell_name)
 
@@ -210,7 +211,7 @@ def post_mortem(mask_obj, top_cell):
     trans = pya.Trans.new(int(-shiftx*1000),int(-shifty*1000))
     top_cell.transform(trans)
 
-    path = os.path.join( "..", "gds", "V1", "double_slot_N13_1.gds")
+    path = os.path.join( "..", "gds", "V1", "double_slot_N5_1.gds")
     mask_obj.layout.write( path)
 
 
