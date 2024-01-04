@@ -36,8 +36,8 @@ class mask_paramters():
         self.layout.layer( 161, 0, "SiN_big")
         self.layout.layer( 170, 0, "Shunt_array")
         self.layout.layer( 171, 0, "Shunt")
-        self.layout.layer( 180, 0, "FE_small")
-        self.layout.layer( 181, 0, "FE_big")
+        self.layout.layer( 180, 0, "TE_small")
+        self.layout.layer( 181, 0, "TE_big")
 
     def init(self):
         self.layout = pya.Layout()
@@ -169,7 +169,7 @@ def build_device( mask_obj, cell_name, slot_w, slot_l, area):
     mask_f.build_p_LE_2( mask_obj, cell_name, slot_w, slot_l)
     mask_f.SiN_opening( mask_obj, cell_name, slot_w, area)
     mask_f.build_shunting( mask_obj, cell_name, slot_l, area)
-    mask_f.build_FE( mask_obj, cell_name, slot_w, slot_l, area)
+    mask_f.build_TE( mask_obj, cell_name, slot_w, slot_l, area)
 
 def build_AUX( mask_obj, cell_name):
     mask_f.build_Global_markers( mask_obj, cell_name)
@@ -178,7 +178,7 @@ def build_AUX( mask_obj, cell_name):
     # mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N12_1")
     # mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N13_1")
     mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N5_1")
-    mask_f.mesa_fields(mask_obj, cell_name)
+    # mask_f.mesa_fields(mask_obj, cell_name)
     build_pads_mesa_measure(mask_obj, cell_name)
 
 def build_pads_mesa_measure(mask_obj, cell_name):
@@ -195,7 +195,7 @@ def build_pads_mesa_measure(mask_obj, cell_name):
             mask_f.build_pads( mask_obj, active_cell_name)
             mask_f.build_WF_markers( mask_obj, active_cell_name)
             mask_f.SiN_opening_pads( mask_obj, active_cell_name, area)
-            mask_f.build_FE_pads(mask_obj, active_cell_name)
+            mask_f.build_TE_pads(mask_obj, active_cell_name)
 
             mpa.shift_cell( mask_obj.layout, active_cell_name, i_column * 7200 - 600, i_row * 600)
             mpa.sub_cell_to_TOPcell( mask_obj.layout, mask_obj.top_cell, active_cell_name, 0, 0)

@@ -45,7 +45,7 @@ def build_mesas_pads( mask_inst, cell_name, area):
     mask_b.build_arc( mask_inst.layout, cell_name, "FE_mesas", separation/2, -separation/2, radius, 0, 360)
     mask_b.build_arc( mask_inst.layout, cell_name, "FE_mesas", separation/2, separation/2, radius, 0, 360)
 
-    mask_b.write_text(mask_inst.layout, cell_name, "FE_dev_texts", 0.00004, 150, -250, 0, "T" + str(np.round(area*100)/100))
+    mask_b.write_text(mask_inst.layout, cell_name, "FE_dev_texts", 0.00004, 160, -250, 0, "T" + str(np.round(area*100)/100))
 
 def build_mesas( mask_inst, cell_name, slot_w, slot_l, area):
 
@@ -55,7 +55,7 @@ def build_mesas( mask_inst, cell_name, slot_w, slot_l, area):
     mask_b.build_arc( mask_inst.layout, cell_name, "FE_mesas", 0, -separation/2, radius, 0, 360)
     mask_b.build_arc( mask_inst.layout, cell_name, "FE_mesas", 0, separation/2, radius, 0, 360)
 
-    mask_b.write_text(mask_inst.layout, cell_name, "FE_dev_texts", 0.00004, 150, -250, 0, str(np.round(area*100)/100) + "/" + str(slot_w) + "/" + str(slot_l))
+    mask_b.write_text(mask_inst.layout, cell_name, "FE_dev_texts", 0.00004, 160, -250, 0, str(np.round(area*100)/100) + "/" + str(slot_w) + "/" + str(slot_l))
 
 def build_WF_marker_cell( mask_inst, layer_name):
     cell_name = "WF_marker"
@@ -283,7 +283,7 @@ def build_shunting( mask_inst, cell_name, slot_l, area):
     mask_b.build_rectangle( mask_inst.layout, cell_name, "Shunt", ito_length_p, ito_width, xoff_shunt, yoff_shunt)
     mask_b.build_rectangle( mask_inst.layout, cell_name, "Shunt", ito_length_p, ito_width, xoff_shunt, -yoff_shunt)
 
-def build_FE_pads( mask_inst, cell_name):
+def build_TE_pads( mask_inst, cell_name):
     subcell_name = "FE_inners"
     sub_cell = mask_inst.layout.create_cell( subcell_name)
     subcell_name = sub_cell.name
@@ -292,23 +292,23 @@ def build_FE_pads( mask_inst, cell_name):
     arm_size = 10
     temp = separation/2 - arm_size/2
 
-    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "FE_small", -temp, -temp, -120, -(temp + arm_size))
-    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "FE_small", -120, -temp, -280, -200)
+    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "TE_small", -temp, -temp, -120, -(temp + arm_size))
+    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "TE_small", -120, -temp, -280, -200)
 
-    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "FE_small", -temp, temp, -120, (temp + arm_size))
-    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "FE_small", -120, temp, -280, 200)
+    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "TE_small", -temp, temp, -120, (temp + arm_size))
+    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "TE_small", -120, temp, -280, 200)
 
-    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "FE_small", temp, -temp, 120, -(temp + arm_size))
-    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "FE_small", 120, -temp, 280, -200)
+    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "TE_small", temp, -temp, 120, -(temp + arm_size))
+    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "TE_small", 120, -temp, 280, -200)
 
-    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "FE_small", temp, temp, 120, (temp + arm_size))
-    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "FE_small", 120, temp, 280, 200)
+    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "TE_small", temp, temp, 120, (temp + arm_size))
+    mask_b.build_rectangle_xy( mask_inst.layout, subcell_name, "TE_small", 120, temp, 280, 200)
 
-    mpa.merge_shapes_in_cell_accros_layer(mask_inst.layout, "FE_small", subcell_name)
+    mpa.merge_shapes_in_cell_accros_layer(mask_inst.layout, "TE_small", subcell_name)
 
     mpa.sub_cell_to_TOPcell( mask_inst.layout, mpa.find_cell( mask_inst.layout, cell_name), subcell_name, 0, 0)
 
-def build_FE( mask_inst, cell_name, slot_w, slot_l, area):
+def build_TE( mask_inst, cell_name, slot_w, slot_l, area):
     subcell_name = "FE_inners"
     sub_cell = mask_inst.layout.create_cell( subcell_name)
     subcell_name = sub_cell.name
@@ -324,31 +324,56 @@ def build_FE( mask_inst, cell_name, slot_w, slot_l, area):
 
     inner_l = slot_l + 2 * mask_inst.inner_clearance
 
-    mask_b.build_arc( mask_inst.layout, subcell_name, "FE_small", 0, separation/2, radius, 0, 180)
-    mask_b.build_rectangle( mask_inst.layout, subcell_name, "FE_small", mask_inst.bridge_1_w, bridge_1_l, 0, bridge_1_yoff)
-    mask_b.build_rectangle( mask_inst.layout, subcell_name, "FE_small", mask_inst.bridge_2_w, mask_inst.bridge_2_l, 0, bridge_2_yoff)
+    mask_b.build_arc( mask_inst.layout, subcell_name, "TE_small", 0, separation/2, radius, 0, 180)
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_small", mask_inst.bridge_1_w, bridge_1_l, 0, bridge_1_yoff)
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_small", mask_inst.bridge_2_w, mask_inst.bridge_2_l, 0, bridge_2_yoff)
 
-    mask_b.build_arc( mask_inst.layout, subcell_name, "FE_small", 0, -separation/2, radius, 180, 360)
-    mask_b.build_rectangle( mask_inst.layout, subcell_name, "FE_small", mask_inst.bridge_1_w, bridge_1_l, 0, -bridge_1_yoff)
-    mask_b.build_rectangle( mask_inst.layout, subcell_name, "FE_small", mask_inst.bridge_2_w, mask_inst.bridge_2_l, 0, -bridge_2_yoff)
+    mask_b.build_arc( mask_inst.layout, subcell_name, "TE_small", 0, -separation/2, radius, 180, 360)
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_small", mask_inst.bridge_1_w, bridge_1_l, 0, -bridge_1_yoff)
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_small", mask_inst.bridge_2_w, mask_inst.bridge_2_l, 0, -bridge_2_yoff)
 
-    mask_b.build_rectangle( mask_inst.layout, subcell_name, "FE_small", inner_l, mask_inst.inner_w, 0, 0)
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_small", inner_l, mask_inst.inner_w, 0, 0)
 
     TL_len = (mask_inst.WF_size_small - inner_l)/2 + mask_inst.TL_extend
     TL_yoff = inner_l/2 + TL_len/2
 
-    mask_b.build_rectangle( mask_inst.layout, subcell_name, "FE_small", TL_len, mask_inst.TL_width, TL_yoff, 0)
-    mask_b.build_rectangle( mask_inst.layout, subcell_name, "FE_small", TL_len, mask_inst.TL_width, -TL_yoff, 0)
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_small", TL_len, mask_inst.TL_width, TL_yoff, 0)
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_small", TL_len, mask_inst.TL_width, -TL_yoff, 0)
 
     pad_off = inner_l/2 + TL_len + mask_inst.FE_pad_size/2 - mask_inst.TL_extend/2
 
-    mask_b.build_rectangle( mask_inst.layout, subcell_name, "FE_small", mask_inst.FE_pad_size, mask_inst.FE_pad_size, pad_off, 0)
-    mask_b.build_rectangle( mask_inst.layout, subcell_name, "FE_small", mask_inst.FE_pad_size, mask_inst.FE_pad_size, -pad_off, 0)
-
-    mpa. merge_shapes_in_cell_accros_layer(mask_inst.layout, "FE_small", subcell_name)
-
+    mpa.merge_shapes_in_cell_accros_layer(mask_inst.layout, "TE_small", subcell_name)
     mpa.sub_cell_to_TOPcell( mask_inst.layout, mpa.find_cell( mask_inst.layout, cell_name), subcell_name, 0, 0)
 
+    subcell_name = "FE_outers"
+    sub_cell = mask_inst.layout.create_cell( subcell_name)
+    subcell_name = sub_cell.name
+
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_big", mask_inst.FE_pad_size, mask_inst.FE_pad_size, pad_off, 0)
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_big", mask_inst.FE_pad_size, mask_inst.FE_pad_size, -pad_off, 0)
+
+
+    size_x = 40
+    size_y = mask_inst.SiN_LE_open_size + (mask_inst.LE_pad - mask_inst.SiN_LE_open_size)/2 + (mask_inst.WF_size_small - mask_inst.FE_pad_size)/2
+    y_off = mask_inst.FE_pad_size/2 + size_y/2
+    x_off = pad_off - mask_inst.FE_pad_size/2 + size_x/2
+
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_big", size_x, size_y, x_off, y_off)
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_big", size_x, size_y, x_off, -y_off)
+
+    xoff_shunt = mask_inst.LE_pad/2 + mask_inst.ito_length/2 - (mask_inst.LE_pad - mask_inst.SiN_LE_open_size)/2
+    yoff_shunt =  mask_inst.WF_size_small/2 + mask_inst.LE_pad/2
+
+    size_x = mask_inst.ito_pad
+    size_y = mask_inst.SiN_LE_open_size
+    y_off = yoff_shunt
+    x_off = xoff_shunt + mask_inst.ito_length/2 + size_x/2
+
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_big", size_x, size_y, x_off, y_off)
+    mask_b.build_rectangle( mask_inst.layout, subcell_name, "TE_big", size_x, size_y, x_off, -y_off)
+
+    mpa.merge_shapes_in_cell_accros_layer(mask_inst.layout, "TE_big", subcell_name)
+    mpa.sub_cell_to_TOPcell( mask_inst.layout, mpa.find_cell( mask_inst.layout, cell_name), subcell_name, 0, 0)
 
 
 def build_pads(mask_inst, cell_name):
