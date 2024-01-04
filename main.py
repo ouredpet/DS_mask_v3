@@ -210,7 +210,7 @@ def post_mortem(mask_obj, top_cell):
     trans = pya.Trans.new(int(-shiftx*1000),int(-shifty*1000))
     top_cell.transform(trans)
 
-    path = os.path.join( "..", "gds", "mask_mesa_with_pads_1", "double_slot_N13_1.gds")
+    path = os.path.join( "..", "gds", "V1", "double_slot_N13_1.gds")
     mask_obj.layout.write( path)
 
 
