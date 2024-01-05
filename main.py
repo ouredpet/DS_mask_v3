@@ -5,6 +5,46 @@ import mask_frontend as mask_f
 import mask_backend as mask_b
 import mask_pya_aip as mpa
 
+def generate_lay_file(mask_object):
+    file = open("lay_reference_file.txt", "r")
+    path = os.path.join( "..", "gds", "V1", mask_object.mask_name + ".lay")
+    file2 = open(path, "w")
+    header = file.read()
+    file.close()
+    file2.write(header)
+
+
+    for li in mask_object.layout.layer_indices():
+        number = mask_object.layout.get_info(li)
+        name = mask_object.layout.get_info(li).name
+        file2.write( str(number.layer))
+        file2.write( "=")
+        file2.write( name)
+        file2.write( ",")
+
+        file2.write( str(li))
+        file2.write( ",")
+        file2.write( str(li))
+        file2.write( ",")
+        file2.write( str(7*(li%2)))
+        file2.write( ",")
+        
+        file2.write( str(number.layer))
+        file2.write( ",")
+
+        file2.write( "1")
+        file2.write( ",")
+        file2.write( "1")
+        file2.write( ",")
+        file2.write( "1000")
+        file2.write( ",")
+        file2.write( "")
+        file2.write( ",")
+        file2.write( "-1")
+
+        file2.write( "\n")
+    
+    file2.close()
 
 class mask_paramters():
 
@@ -47,6 +87,12 @@ class mask_paramters():
         mask_f.build_Global_marker_cell( self, "FE_big_marks")
         mask_f.wf_marks_coordinates_fun(self)
         mask_f.Global_marks_coordinates_fun(self)
+
+    mask_name = "DS_N5_1"
+    # mask_name = "DS_N8_1"
+    # mask_name = "DS_N9_1"
+    # mask_name = "DS_N12_1"
+    # mask_name = "DS_N13_1"
 
     n_x_devices = 11
     n_y_devices = 11
@@ -173,12 +219,8 @@ def build_device( mask_obj, cell_name, slot_w, slot_l, area):
 
 def build_AUX( mask_obj, cell_name):
     mask_f.build_Global_markers( mask_obj, cell_name)
-    # mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N8_1")
-    # mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N9_1")
-    # mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N12_1")
-    # mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N13_1")
-    mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, "DS_N5_1")
-    # mask_f.mesa_fields(mask_obj, cell_name)
+    mask_b.write_text(mask_obj.layout, cell_name, "FE_text", 0.000004, 0, 6800, 0, mask_obj.mask_name)
+    mask_f.mesa_fields(mask_obj, cell_name)
     build_pads_mesa_measure(mask_obj, cell_name)
 
 def build_pads_mesa_measure(mask_obj, cell_name):
@@ -211,7 +253,7 @@ def post_mortem(mask_obj, top_cell):
     trans = pya.Trans.new(int(-shiftx*1000),int(-shifty*1000))
     top_cell.transform(trans)
 
-    path = os.path.join( "..", "gds", "V1", "double_slot_N5_1.gds")
+    path = os.path.join( "..", "gds", "V1", mask_obj.mask_name + ".gds")
     mask_obj.layout.write( path)
 
 
@@ -219,28 +261,29 @@ def post_mortem(mask_obj, top_cell):
 #################################################################
 
 def main():
-    mask_instace = mask_paramters()
-    mask_instace.init()
+    mask_instance = mask_paramters()
+    mask_instance.init()
+    generate_lay_file(mask_instance)
 
-    for row_index in range(mask_instace.n_x_devices):
-        for column_index in range(mask_instace.n_y_devices):
+    for row_index in range(mask_instance.n_x_devices):
+        for column_index in range(mask_instance.n_y_devices):
 
             dev_indy = int(row_index/2)
-            slot_w = mask_instace.slot_w[dev_indy]
-            slot_l = mask_instace.slot_l[dev_indy]
+            slot_w = mask_instance.slot_w[dev_indy]
+            slot_l = mask_instance.slot_l[dev_indy]
 
-            mesa_radius_index = (row_index * mask_instace.n_y_devices + column_index)%(mask_instace.n_x_devices + mask_instace.n_y_devices)
+            mesa_radius_index = (row_index * mask_instance.n_y_devices + column_index)%(mask_instance.n_x_devices + mask_instance.n_y_devices)
 
             active_cell_name = "D_" + str(column_index) + "_" + str(row_index)
-            active_cell = mask_instace.layout.create_cell( active_cell_name)
-            build_device( mask_instace, active_cell_name, slot_w, slot_l, mask_instace.meas_areas[mesa_radius_index])
+            active_cell = mask_instance.layout.create_cell( active_cell_name)
+            build_device( mask_instance, active_cell_name, slot_w, slot_l, mask_instance.meas_areas[mesa_radius_index])
 
-            mpa.shift_cell( mask_instace.layout, active_cell_name, column_index * mask_instace.x_pitch, row_index * mask_instace.y_pitch)
-            mpa.sub_cell_to_TOPcell( mask_instace.layout, mask_instace.top_cell, active_cell_name, 0, 0)
+            mpa.shift_cell( mask_instance.layout, active_cell_name, column_index * mask_instance.x_pitch, row_index * mask_instance.y_pitch)
+            mpa.sub_cell_to_TOPcell( mask_instance.layout, mask_instance.top_cell, active_cell_name, 0, 0)
 
-    build_AUX( mask_instace, mask_instace.top_cell.name)
+    build_AUX( mask_instance, mask_instance.top_cell.name)
 
-    post_mortem(mask_instace, mask_instace.top_cell)
+    post_mortem(mask_instance, mask_instance.top_cell)
 
 
 if __name__ == "__main__":
