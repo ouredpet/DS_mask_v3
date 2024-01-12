@@ -129,6 +129,7 @@ class mask_paramters():
     small_LE_area_side = 40
     LE_pad = 150
     big_LE_area_side = 200
+    LE1_overlap = 5
 
     # bridges
     Bridge_PR_island_x_trim = 0.1
@@ -137,6 +138,7 @@ class mask_paramters():
     # LE2 sizes
     mesa_LE2_clearence_x = 3.5
     mesa_LE2_clearence_y = 3
+    LE2_overlap = 5
 
     # WF markers size
     wf_marks_coordinates = []

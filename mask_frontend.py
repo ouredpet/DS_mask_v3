@@ -176,6 +176,9 @@ def build_p_LE_1( mask_inst, cell_name, slot_w, slot_l):
         hole_region = mpa.build_rectangle_region( mask_inst.WF_marker_pitch, mask_inst.WF_marker_pitch, mask_inst.wf_marks_coordinates[i_wf_coord][0], mask_inst.wf_marks_coordinates[i_wf_coord][1])
         rect_region = rect_region - hole_region
 
+    hole_region = mpa.build_rectangle_region( mask_inst.small_LE_area_side - 2*mask_inst.LE1_overlap, mask_inst.small_LE_area_side - 2*mask_inst.LE1_overlap, 0, 0)
+    rect_region = rect_region - hole_region
+
     mpa.insert_region( mask_inst.layout, cell_name, "LE1_p_big", rect_region)
 
 
@@ -184,6 +187,13 @@ def build_p_LE_1( mask_inst, cell_name, slot_w, slot_l):
 
     mask_b.build_rectangle( mask_inst.layout, cell_name, "LE1_p_big_c", mask_inst.WF_size_small - 2 * 3 * mask_inst.WF_marker_pitch, 2, 0, mask_inst.WF_size_small/2)
     mask_b.build_rectangle( mask_inst.layout, cell_name, "LE1_p_big_c", mask_inst.WF_size_small - 2 * 3 * mask_inst.WF_marker_pitch, 2, 0, -mask_inst.WF_size_small/2)
+
+    l_cover = ( mask_inst.big_LE_area_side - mask_inst.small_LE_area_side + 2*mask_inst.LE1_overlap) / 2
+    xoff = -( mask_inst.small_LE_area_side - 2*mask_inst.LE1_overlap + mask_inst.big_LE_area_side) / 4
+    w_cover = 2
+    yoff = mask_inst.small_LE_area_side/2 - 2*mask_inst.LE1_overlap/2
+    mask_b.build_rectangle( mask_inst.layout, cell_name, "LE1_p_big_c", l_cover, w_cover, xoff, yoff)
+
 
 def PR_bridges( mask_inst, cell_name, slot_w):
 
@@ -225,6 +235,9 @@ def build_p_LE_2( mask_inst, cell_name, slot_w, slot_l):
         hole_region = mpa.build_rectangle_region( mask_inst.WF_marker_pitch, mask_inst.WF_marker_pitch, mask_inst.wf_marks_coordinates[i_wf_coord][0], mask_inst.wf_marks_coordinates[i_wf_coord][1])
         rect_region = rect_region - hole_region
 
+    hole_region = mpa.build_rectangle_region( mask_inst.small_LE_area_side - 2*mask_inst.LE1_overlap, mask_inst.small_LE_area_side - 2*mask_inst.LE1_overlap, 0, 0)
+    rect_region = rect_region - hole_region
+
     mpa.insert_region( mask_inst.layout, cell_name, "LE2_p_big", rect_region)
 
 
@@ -233,6 +246,13 @@ def build_p_LE_2( mask_inst, cell_name, slot_w, slot_l):
 
     mask_b.build_rectangle( mask_inst.layout, cell_name, "LE2_p_big_c", mask_inst.WF_size_small - 2*3*mask_inst.WF_marker_pitch, 2, 0, mask_inst.WF_size_small/2)
     mask_b.build_rectangle( mask_inst.layout, cell_name, "LE2_p_big_c", mask_inst.WF_size_small - 2*3*mask_inst.WF_marker_pitch, 2, 0, -mask_inst.WF_size_small/2)
+
+    l_cover = ( mask_inst.big_LE_area_side - mask_inst.small_LE_area_side + 2*mask_inst.LE1_overlap) / 2
+    xoff = -( mask_inst.small_LE_area_side - 2*mask_inst.LE1_overlap + mask_inst.big_LE_area_side) / 4
+    w_cover = 2
+    yoff = mask_inst.small_LE_area_side/2 - 2*mask_inst.LE1_overlap/2
+    mask_b.build_rectangle( mask_inst.layout, cell_name, "LE2_p_big_c", l_cover, w_cover, xoff, yoff)
+
 
 def SiN_opening_pads( mask_inst, cell_name, area):
 
