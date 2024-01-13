@@ -5,6 +5,71 @@ import mask_frontend as mask_f
 import mask_backend as mask_b
 import mask_pya_aip as mpa
 
+def generate_pls_file(mask_object):
+    file_ref = open("pls_reference_file.txt", "r")
+    path = os.path.join( "..", "gds", "V1", mask_object.mask_name + "_test.pls")
+    file_pls = open(path, "w")
+    header = file_ref.read()
+    file_ref.close()
+    file_pls.write(header)
+
+    i = 0
+
+    ID = i
+    X= 
+    Y=
+    Z=
+    R=
+    T=
+    U=
+    V=
+    W=
+    Attribute=
+    Template=
+    Comment=
+    Options=
+    Type=
+    Size_U=
+    Size_V=
+    Points_U=
+    Points_V=
+    Dir=
+    Avg=
+    Pos1=
+    Pos2=
+    Pos3=
+    Link=
+    File=
+    Layer=
+    Area=
+    DoseFactor=
+    Dwelltime=
+    Stepsize=
+    SplDwell=
+    SplStep=
+    CurveStep=
+    CurveDwell=
+    DotDwell=
+    FBMSArea=
+    FBMSLines=
+    SplDot=
+    Time=
+    Timestamp=
+    Method=
+    Dot=
+    Angle=
+    MarkSequences=
+    Frame=
+    LAvg=
+    StepsizeU=
+    StepsizeV=
+    CurveLine=
+
+    file_pls.write( str(i) + ",")
+
+    file_pls.close()
+
+
 def generate_lay_file(mask_object):
     file = open("lay_reference_file.txt", "r")
     path = os.path.join( "..", "gds", "V1", mask_object.mask_name + ".lay")
@@ -266,6 +331,7 @@ def main():
     mask_instance = mask_paramters()
     mask_instance.init()
     generate_lay_file(mask_instance)
+    generate_pls_file(mask_instance)
 
     for row_index in range(mask_instance.n_x_devices):
         for column_index in range(mask_instance.n_y_devices):
