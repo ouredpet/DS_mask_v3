@@ -16,54 +16,72 @@ def generate_pls_file(mask_object):
     i = 0
 
     ID = i
-    X= 
-    Y=
-    Z=
-    R=
-    T=
-    U=
-    V=
-    W=
-    Attribute=
-    Template=
-    Comment=
-    Options=
-    Type=
-    Size_U=
-    Size_V=
-    Points_U=
-    Points_V=
-    Dir=
-    Avg=
-    Pos1=
-    Pos2=
-    Pos3=
-    Link=
-    File=
-    Layer=
-    Area=
-    DoseFactor=
-    Dwelltime=
-    Stepsize=
-    SplDwell=
-    SplStep=
-    CurveStep=
-    CurveDwell=
-    DotDwell=
-    FBMSArea=
-    FBMSLines=
-    SplDot=
-    Time=
-    Timestamp=
-    Method=
-    Dot=
-    Angle=
-    MarkSequences=
-    Frame=
-    LAvg=
-    StepsizeU=
-    StepsizeV=
-    CurveLine=
+    X = 25.891829
+    Y = 2.689630
+    Z = 28.999800
+    R = 0.000000
+    T = 0.000000
+    U = 25.891829
+    V = 2.689630
+    W = 7.544100
+    Attribute = "A"
+    Template = "XY"
+    Comment = "Go to Farraday cup"
+    # "STAY;"
+    Options = ""
+    # "VICOL" "MACRO" "ALWF_AUTO" "EXPOSURE"
+    Type = ""
+    # Size of the patterinig of of an image scan
+    Size_U = ""
+    Size_V = ""
+    # Number of points of a image scan
+    Points_U = ""
+    Points_V = ""
+    # Direction of the scan "U"
+    Dir = ""
+    # Number of avarages
+    Avg = ""
+    # At patterning 100.000 for pos1 and pos2
+    Pos1 = ""
+    Pos2 = ""
+    Pos3 = ""
+    Link = ""
+    # file directory of name of the column settings
+    File = ""
+    # Layer span or number of the column ID mode
+    Layer = ""
+    # Working arease size 1100.000;1100.000;8900.000;9100.000
+    Area = ""
+    # Dose factor
+    DoseFactor = ""
+    # Dwell time in ms
+    Dwelltime = ""
+    Stepsize = ""
+    SplDwell = ""
+    SplStep = ""
+    CurveStep = ""
+    CurveDwell = ""
+    DotDwell = ""
+    FBMSArea = ""
+    FBMSLines = ""
+    # SplDot 44 at patterning why?
+    SplDot = ""
+    Time = ""
+    Timestamp = ""
+    Method = ""
+    Dot = ""
+    # auto WF align with images 0
+    Angle = ""
+    # auto WF align with images 255
+    MarkSequences = ""
+    # auto WF align with images 1
+    Frame = ""
+    # auto WF align with images 1
+    LAvg = ""
+    # patterning 0.016
+    StepsizeU = ""
+    StepsizeV = ""
+    CurveLine = ""
 
     file_pls.write( str(i) + ",")
 
