@@ -5,7 +5,6 @@ import mask_frontend as mask_f
 import mask_backend as mask_b
 import mask_pya_aip as mpa
 
-# Test commit 4
 
 def generate_pls_file(mask_object):
     file_ref = open("pls_reference_file.txt", "r")
